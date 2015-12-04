@@ -1,5 +1,6 @@
 package sierpinski;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -29,6 +30,8 @@ public class SierpinskiKurveGUI {
 	int y;
 	/**Richtung des Zeichenstifts*/
 	int dir;
+	/**Floatwert fuer die HSV-Farbe*/
+	private float c = 0f, n = 0.001f;
 	/**JPanel, auf welchem die Kurve dargestellt wird*/
 	private JPanel painter = new JPanel() {
 		@Override
@@ -37,6 +40,7 @@ public class SierpinskiKurveGUI {
 			y = 20;
 			dir = 0;//0 oben, 90 rechts, etc.
 			for(char c:sk.getDirections()) {
+				g.setColor(getColor());
 				switch(c) {
 				case 'a':
 					for(int i=0;i<2;i++) {
@@ -93,6 +97,18 @@ public class SierpinskiKurveGUI {
 		frame1.pack();
 		frame1.setLocationRelativeTo(null);
 		frame1.setVisible(true);
+	}
+	
+	/**
+	 * Diese Methode gibt die aktuelle Farbe zurueck.
+	 * @return Gibt Farbe aus.
+	 */
+	private Color getColor() {
+		if(c==(1-n)) {
+			c=-n;
+		}
+		Color color = new Color(Color.HSBtoRGB(c+=n,1f,1f));
+		return color;
 	}
 
 	public static void main(String[] args) {
